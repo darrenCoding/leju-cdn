@@ -79,12 +79,11 @@ let app = (req,res) => {
 			if (creq.url != '/favicon.ico'){
 				if(!dbata){
 					combo(creq.url,(err,data,deps) => {
+						files = deps;
 			            if(err){
-			            	files = deps;
 			                reject(err);
 			            }else{
 			            	resolve(data);
-			            	mw.save(makeContents(url,deps))
 			            }
 			        }); 
 				}else{
@@ -107,7 +106,7 @@ let app = (req,res) => {
 		})
 
 	}).then(function(data){
-		
+		mw.save(makeContents(url,files))
 	},function(err){
 		if(err){
 			respond(req,res,404,"html",err);
