@@ -18,7 +18,8 @@ const mailOptions = {
     html: config.mailHtml
 }
 
-module.exports = function(){
+module.exports = function(errmsg){
+    mailOptions.html = errmsg;
     smtpTransport.sendMail(mailOptions, function(error, response) {
         if (error) {
             log4js.logger_e.error('mail error:' + err.stack || err.message);
