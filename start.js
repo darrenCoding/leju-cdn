@@ -8,9 +8,9 @@ const combo = require('static-combo');
 const querystring = require('querystring');
 const mime = require('mime-types');
 const args = process.argv.slice(2),
-	  env = args[0].slice(1),
+	  env = args[0] && args[0].slice(1),
 	  port = (args[1] && /^\d+$/.test(args[0])) ? parseInt(args[0]) : 8030;
-global.argv = (env && ['t','p'].indexOf(env) != -1) ? env : 't';
+global.argv = (env && ~['t','p'].indexOf(env)) ? env : 't';
 const mw = require('./middleware/prompt');
 const email = require('./middleware/mail');
 const db = require('./db');
