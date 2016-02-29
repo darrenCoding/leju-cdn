@@ -41,6 +41,6 @@ module.exports = {
     }()),
     getUrl(path){
     	let parr = path.match(/(.+\.\w+)(\?)(.+)/);
-    	return (!parr || (['r','c','s','l'].indexOf(parr[3]) != -1)) ? path : parr[1]
+    	return (!parr || (~['r','c','s','l'].indexOf(parr[3]))) ? path : parr[1]
     }
 }
