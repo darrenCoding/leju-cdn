@@ -36,7 +36,9 @@ let respond = (req,res,code,type,data) => {
 			res.end(new Buffer(data))
 		})
 	}else{
-		res.statusCode = 404;
+		res.writeHead(code,{
+			'Content-Type' : mime.lookup(type) + '; charset=utf-8',
+		})
 		res.end(data);
 	}
 }
@@ -103,13 +105,14 @@ let app = (req,res) => {
                 reject(e)
             }
             respond(req,res,200,type,rdata);
+            resolve();
 		})
 
-	}).then(function(data){
+	}).then(function(){
 		mw.save(makeContents(url,files))
 	},function(err){
 		if(err){
-			respond(req,res,404,"html",err);
+			respond(req,res,404,"html",String(err));
 			mw.save(makeContents(url,files))
 			return log4js.logger_e.error(err.stack || err.message);
 		}
