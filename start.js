@@ -80,6 +80,9 @@ let app = (req,res) => {
 		let rdata = yield new Promise((resolve,reject) => {
 			if (creq.url != '/favicon.ico'){
 				if(!dbata){
+					combo.config({
+						"compress" : true
+					})
 					combo(creq.url,(err,data,deps) => {
 						files = deps;
 			            if(err){
@@ -96,7 +99,7 @@ let app = (req,res) => {
 		})
 
 		let sdata = yield new Promise((resolve,reject) => {
-			rdata = "/**" + new Date().toUTCString() + "**/" + rdata;
+			rdata = "/*<ljtime>" + new Date().toUTCString() + "</ljtime>*/" + rdata;
 			try {
                 db.set(url, rdata, function(err, data) {
 					err && reject(err)

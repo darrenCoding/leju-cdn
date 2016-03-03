@@ -10,8 +10,7 @@ module.exports = {
     },
     fresh : (() => {
     	let hash,
-    		date,
-    		isold = false;
+    		date;
     	let getHash = (data) => {
     		let md5 = crypto.createHash('md5');
 		    md5.update(data);
@@ -19,10 +18,13 @@ module.exports = {
     	}
 
     	let lastModified = (data) => {
-    		return date = data.slice(0,data.indexOf("**/")).replace(/\/\*\*/,'');
+            let index = ~data.indexOf("</ljtime>*/") ? data.indexOf("</ljtime>*/") : 0;
+            let sdata = data.slice(0,index);
+    		return date = sdata ? sdata.replace(/\/\*\<(ljtime)\>/,'') : new Date().toUTCString();
     	}
 
     	let check = (req,data) => {
+            let isold = false;
     		if(req.headers['if-none-match'] && req.headers['if-none-match'] === getHash(data)){
 		    	isold = true;
 		    }
