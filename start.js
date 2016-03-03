@@ -81,7 +81,7 @@ let app = (req,res) => {
 			if (creq.url != '/favicon.ico'){
 				if(!dbata){
 					combo.config({
-						"compress" : true
+						"compress" : argv === 't' ? false : true
 					})
 					combo(creq.url,(err,data,deps) => {
 						files = deps;
