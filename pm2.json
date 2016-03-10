@@ -1,0 +1,10 @@
+{
+  "name"             : "imgCdn",
+  "script"           : "/Users/linfang/Documents/leju/leju-cdn/start.js",
+  "log_date_format"  : "YYYY-MM-DD HH:mm Z",
+  "merge_logs"       : true,
+  "instances"        : 0,
+  "watch"            : true,
+  "ignore_watch"      : ["Logs", "node_modules"],
+  "exec_mode"        : "cluster"
+}

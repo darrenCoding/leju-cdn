@@ -28,7 +28,7 @@ module.exports = {
     		if(req.headers['if-none-match'] && req.headers['if-none-match'] === getHash(data)){
 		    	isold = true;
 		    }
-		    if(req.headers['if-modified-since'] && req.headers['If-Modified-Since'] === lastModified(data)){
+		    if(req.headers['if-modified-since'] && req.headers['if-modified-since'] === lastModified(data)){
 		    	isold = true;
 		    }
 		    return isold;
