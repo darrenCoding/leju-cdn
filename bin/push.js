@@ -18,14 +18,14 @@ const command = child_process.exec(
         	if(err){
         		return console.log(err);
         	}
-        	console.log(stdout);
-        	console.log(stderr);
+        	console.log(stdout + "1111");
+        	console.log(stderr + "2222");
         });
 
 command.stdout.on('data', function (data) {
-    console.log(data + '');
+    console.log(data + '333');
 })
 
 command.stdout.on('error', function (data) {
-    console.log(data + '');
+    console.log(data + '444');
 })
