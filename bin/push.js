@@ -18,8 +18,8 @@ const command = child_process.exec(
         	if(err){
         		return console.log(err);
         	}
-        	console.log(stdout + "1111");
-        	console.log(stderr + "2222");
+        	/*console.log(stdout + "1111");
+        	console.log(stderr + "2222");*/
         });
 
 command.stdout.on('data', function (data) {
