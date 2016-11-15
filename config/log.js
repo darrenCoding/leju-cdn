@@ -14,7 +14,7 @@ log4js.configure({
       },
       {
         type: 'file', 
-        filename: 'error.log', 
+        filename: 'system_error.log', 
         maxLogSize: 1048576,
         backups:3,
         category: 'error' 
