@@ -7,7 +7,7 @@ const crypto = require('crypto');
 module.exports = {
 	save(contents) {
         //内部接口
-        /*var savereq = http.request({
+        var savereq = http.request({
             host: 'admin.imgcdn.leju.com',
             path: '/imgcdn/api/index',
             method: 'POST',
@@ -17,7 +17,7 @@ module.exports = {
             }
         })
         savereq.write(contents);
-        savereq.end();*/
+        savereq.end();
     },
     fresh : (() => {
     	let hash,
@@ -37,9 +37,9 @@ module.exports = {
 
     	let check = (req,data) => {
             let isold = false;
-    		/*if(req.headers['if-none-match'] && req.headers['if-none-match'] === getHash(data)){
+    		if(req.headers['if-none-match'] && req.headers['if-none-match'] === getHash(data)){
 		    	isold = true;
-		    }*/
+		    }
 		    if(req.headers['if-modified-since'] && req.headers['if-modified-since'] === lastModified(data)){
 		    	isold = true;
 		    }

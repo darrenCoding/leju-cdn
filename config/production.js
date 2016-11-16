@@ -2,8 +2,8 @@
 'use strict';
 
 module.exports = {
-    rport: "6379",
-    rhost: 'localhost',
+    rport: "7506",
+    rhost: 'm7506.tj.imgcdn.grid.house.sina.com.cn',
     mailHost: "smtp.qq.com",
     mailPort: "465",
     auth : {
@@ -13,5 +13,8 @@ module.exports = {
     mailFrom: "",
     mailTo: "",
     mailSubject: "",
-    mailHtml: ""
+    mailHtml: "",
+    requireLib : "/data1/vhosts/admin.imgcdn.leju.com/htdocs/nodejs/v2.0/deps/minirequire",
+    filePath : "/data1/www/data/admin.imgcdn.leju.com/newdojquery/trunk",
+    logPath : "/data1/www/data/admin.imgcdn.leju.com/v2.0"
 }

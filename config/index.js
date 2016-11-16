@@ -3,9 +3,12 @@
 
 const path = require('path');
 
-let env = (argv === 't' || !args) ? 'local' : 'production';
-    env = env.toLowerCase();
+const env = {
+	"t" : "test",
+	"l" : "local",
+	"p" : "production"
+}
 
-const file = path.resolve(__dirname, env);
+const file = path.resolve(__dirname, env[argv]);
 
 const config = module.exports = require(file);

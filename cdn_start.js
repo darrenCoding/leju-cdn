@@ -2,16 +2,17 @@
 
 const http = require('http');
 const path = require('path');
-const uri = require('url');
 const co = require('co');
+const uri = require('url');
 const onFinished = require('on-finished');
 const combo = require('static-combo');
 const querystring = require('querystring');
 const mime = require('mime-types');
 const args = process.argv.slice(2),
-	  env = 't',
 	  port = (args[0] && /^\d+$/.test(args[0])) ? parseInt(args[0]) : 8030;
-global.argv = (env && ~['t','p'].indexOf(env)) ? env : 't';
+global.argv = (~['t','p','l'].indexOf(args[1])) ? args[1] : 't';
+const compress = ~['t','l'].indexOf(argv) ? false : true;
+const config = require('./config');
 const mw = require('./middleware/prompt');
 const email = require('./middleware/mail');
 const db = require('./db');
@@ -20,16 +21,20 @@ const log4js = require('./config/log');
 const slice = Array.prototype.slice;
 
 combo.config({
-	"base_path" : process.cwd(),
-	"compress" : argv === 't' ? false : true,
+	"base_path" : config.filePath,
+	"compress" : compress,
 	"js_module" : {
 		"AMD" : { 
-			"baseUrl": "./",
+			"baseUrl": config.filePath,
 			"paths": {
-				"requireLib": "./deps/minirequire"
+				"requireLib": config.requireLib
 			},
 			"name": 'requireLib',
 			"skipModuleInsertion": true,
+			"uglify": {
+				"make_seqs" : false,
+				"dead_code" : false
+			}
 		},
 		"COMMONJS" : {
 		}
@@ -123,8 +128,8 @@ let app = (req,res) => {
 		let sdata = yield new Promise((resolve,reject) => {
 			rdata = "/***<ljtime>" + mw.getTime() + "</ljtime>***/" + rdata;
 			if(argv === 'p'){
-				 db.set(url, rdata, function(err, data) {
-					err && log4js.logger_e.error(err);
+				db.set(url, rdata, function(err, data) {
+					err && reject(err)
                 });
 			}
             respond(req,res,200,type,rdata);

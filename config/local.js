@@ -13,5 +13,8 @@ module.exports = {
     mailFrom: "",
     mailTo: "",
     mailSubject: "",
-    mailHtml: ""
+    mailHtml: "",
+    requireLib : "./deps/minirequire",
+    filePath : process.cwd(),
+    logPath : "/data1/CACHE/sina-data/admin.imgcdn.house.sina.com.cn/cdnLog/v2.0"
 }

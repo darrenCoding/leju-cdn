@@ -5,3 +5,5 @@ node_modules
 Logs
 asset
 test.js
+config/test.js
+config/production.js
