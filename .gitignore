@@ -7,3 +7,5 @@ asset
 test.js
 config/test.js
 config/production.js
+test.html
+install.sh
