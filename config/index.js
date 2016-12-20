@@ -3,7 +3,7 @@
 
 const path = require('path');
 
-const env = {
+global.env = {
 	"t" : "test",
 	"l" : "local",
 	"p" : "production"

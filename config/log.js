@@ -1,4 +1,5 @@
 var log4js = require('log4js');
+var config = require('./index');
 
 log4js.configure({
     appenders: [
@@ -23,7 +24,7 @@ log4js.configure({
     replaceConsole: true
   },
   {
-      cwd : './Logs'
+      cwd : config.logPath
   }
 );
 
