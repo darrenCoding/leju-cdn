@@ -44,7 +44,7 @@ combo.config({
 let respond = (req, res, code, type, data) => {
 	if ( code <= 400 ) {
 		mw.fresh(req, data, (err, status, hash, date) => {
-			if ( err ) {
+            if ( err ) {
                 respond(req, res, 404, 'html', err);
 			} else {
 				code = status ? 304 : code;
@@ -77,12 +77,12 @@ let makeContents = (pathname, include, errorinfo) => {
 }
 
 let app = (req, res) => {
-	let files,
+    let files,
         url,
         type;
 	try{
-		let obj_r = uri.parse(req.url, true);
-            type  = path.extname(obj_r.pathname).slice(1);
+        let obj_r = uri.parse(req.url, true);
+        type  = path.extname(obj_r.pathname).slice(1);
 		req.resume();
 	}catch(err){
 		respond(req, res, 500, 'html', err);
@@ -119,7 +119,7 @@ let app = (req, res) => {
 		            if ( err ) {
 		                reject({
 		                	udefine : true,
-		                	code : 404,
+                            code : 404,
                             msg : err
 		                });
 		            } else {
@@ -137,7 +137,7 @@ let app = (req, res) => {
 			rdata = '/***<ljtime>'+ mw.getTime() + '</ljtime>***/' + rdata;
 			if ( argv === 'p' ) {
                 db.set(url, rdata, (err, data) => {
-				    err && reject(err)
+                    err && reject(err)
                 });
 			}
             respond(req, res, 200, type, rdata);
