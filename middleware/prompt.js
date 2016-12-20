@@ -7,17 +7,7 @@ const crypto = require('crypto');
 module.exports = {
 	save (contents) {
         //内部接口
-        /*var savereq = http.request({
-            host: 'admin.imgcdn.leju.com',
-            path: '/imgcdn/api/index',
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded',
-                'Content-Length': contents.length
-            }
-        })
-        savereq.write(contents);
-        savereq.end();*/
+        
     },
     fresh : (() => {
     	let hash,

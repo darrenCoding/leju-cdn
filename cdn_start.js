@@ -9,7 +9,7 @@ const uri         = require('url');
 const combo       = require('static-combo');
 const mime        = require('mime-types');
 const args        = process.argv.slice(2),
-	  port        = (args[0] && /^\d+$/.test(args[0])) ? parseInt(args[0]) : 8030;
+      port        = (args[0] && /^\d+$/.test(args[0])) ? parseInt(args[0]) : 8030;
 global.argv       = (~['t','p','l'].indexOf(args[1])) ? args[1] : 't';
 const compress    = ~['t','l'].indexOf(argv) ? false : true;
 const config      = require('./config');
@@ -78,8 +78,8 @@ let makeContents = (pathname, include, errorinfo) => {
 
 let app = (req, res) => {
 	let files,
-		url,
-		type;
+        url,
+        type;
 	try{
 		let obj_r = uri.parse(req.url, true);
             type  = path.extname(obj_r.pathname).slice(1);
@@ -90,12 +90,12 @@ let app = (req, res) => {
 	
 	co(function* (){
 		url = yield new Promise( (resolve, reject) => {
-			onFinished(req,(err,req) => {
+			onFinished(req, (err,req) => {
 				if ( err ) {
 					reject(err);
-				}else{
+				} else {
 					if ( req.url != '/favicon.ico' ) {
-                     	resolve(req.url.replace(/^\//, ''));   
+                        resolve(req.url.replace(/^\//, ''));   
 					} else {
 						reject();
 					}
