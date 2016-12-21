@@ -7,17 +7,6 @@ const crypto = require('crypto');
 module.exports = {
     save (contents) {
         //内部接口
-        let savereq = http.request({
-            host: 'admin.imgcdn.leju.com',
-            path: '/imgcdn/api/index',
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded',
-                'Content-Length': contents.length
-            }
-        })
-        savereq.write(contents);
-        savereq.end();
     },
     fresh : (() => {
         let hash,
@@ -53,11 +42,19 @@ module.exports = {
             }
         }
     }()),
-    getUrl(path){
+    getUrl (path) {
         let parr = path.match(/(.+\.\w+)(\?)(.+)/);
         return (!parr || (~['r','c','s','l'].indexOf(parr[3]))) ? path : parr[1]
     },
-    getTime(){
+    getTime () {
         return new Date(+new Date()+8*3600*1000).toISOString().replace(/T/g,' ').replace(/\.[\d]{3}Z/,'')
+    },
+    getFinfo () {
+        const _ = Error.prepareStackTrace;
+        Error.prepareStackTrace = (_, stack) => stack;
+        const stack = new Error().stack.slice(1);
+        Error.prepareStackTrace = _;
+        const einfo = stack[0];
+        return einfo.getFileName() + ' ' + einfo.getLineNumber() + '\n';
     }
 }

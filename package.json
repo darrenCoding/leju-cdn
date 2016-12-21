@@ -18,14 +18,14 @@
   "dependencies": {
     "co": "^4.6.0",
     "crypto": "0.0.3",
-    "debug": "^2.2.0",
     "log4js": "^0.6.31",
     "mime-types": "^2.1.9",
     "nodemailer": "^0.7.1",
     "on-finished": "^2.3.0",
     "querystring": "^0.2.0",
     "redis": "^2.4.2",
-    "static-combo": "^1.0.19"
+    "static-combo": "^1.0.19",
+    "timeoutify": "^1.0.0"
   },
   "devDependencies": {
     "log4js": "^0.6.38"

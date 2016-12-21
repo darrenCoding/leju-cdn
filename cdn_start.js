@@ -2,6 +2,7 @@
 
 const querystring = require('querystring');
 const onFinished  = require('on-finished');
+const timeoutify  = require('timeoutify');
 const http        = require('http');
 const path        = require('path');
 const co          = require('co');
@@ -18,9 +19,8 @@ const email       = require('./middleware/mail');
 const db          = require('./db');
 const log4js      = require('./config/log');
 
-const slice = Array.prototype.slice;
-
 combo.config({
+    log : false,
     base_path : config.filePath,
     compress : compress,
     js_module : {
@@ -62,7 +62,7 @@ let respond = (req, res, code, type, data) => {
             if ( code === 304 ) {
                 data = '';
             }
-
+           
             res.end(new Buffer(data))
         })
     } else {
@@ -87,9 +87,11 @@ let app = (req, res) => {
         type;
     try{
         let obj_r = uri.parse(req.url, true);
-        type  = path.extname(obj_r.pathname).slice(1);
+            type  = path.extname(obj_r.pathname).slice(1);
         req.resume();
     }catch(err){
+        err = String(err);
+        log4js.loggerE.error(`[url] ${req.url} ${mw.getFinfo() + err}`);
         respond(req, res, 500, 'html', err);
     }
     
@@ -120,18 +122,28 @@ let app = (req, res) => {
 
         let rdata = yield new Promise( (resolve, reject) => {
             if ( !dbata ) {
-                combo(req.url, (err, data, deps) => {
-                    if ( err ) {
-                        reject({
-                            udefine : true,
-                            code : 404,
-                            msg : err
-                        });
-                    } else {
-                        files = deps;
-                        resolve(data);
+                let timeout = timeoutify((cb) => {
+                    combo(req.url, (err, data, deps) => {
+                        if ( err ) {
+                            reject({
+                                udefine : true,
+                                code : 404,
+                                msg : err
+                            });
+                        } else {
+                            files = deps;
+                            resolve(data);
+                            cb()
+                        }
+                    });
+                }, 5000) 
+
+                timeout( (error) => {
+                    if ( error && error.code == 'TIMEOUT' ) {
+                        log4js.loggerC.info(`[timeout] ${req.url} timout `);
                     }
-                }); 
+                })
+
             } else {
                 respond(req, res, 200, type, dbata);
                 reject();
@@ -139,8 +151,8 @@ let app = (req, res) => {
         })
 
         let sdata = yield new Promise( (resolve, reject) => {
-            rdata = '/***<ljtime>'+ mw.getTime() + '</ljtime>***/' + rdata;
-            if ( argv === 'l' ) {
+            rdata = '/***<ljtime>' + mw.getTime() + '</ljtime>***/' + rdata;
+            if ( argv === 'p' ) {
                 db.set(url, rdata, (err, data) => {
                     err && reject(err)
                 });
@@ -152,16 +164,18 @@ let app = (req, res) => {
     }).then(() => {
         mw.save(makeContents(url, files))
     },( err ) => {
-        let code,
-            msg = String(err);
+        let code = 500,
+            msg  = String(err);
         if ( typeof err === 'object' && err.udefine ) {
             code = err.code || 500;
             msg  = String(err.msg) || '';
         }
+
         if ( err ) {
             respond(req, res, code, 'html', msg);
-            mw.save(makeContents(url, files));
-            return log4js.logger_e.error(msg);
+            files && mw.save(makeContents(url, files));
+            msg = `[code === 500 ? server : url] ${url} ${mw.getFinfo() + msg}`;
+            log4js.loggerE.error(msg);
         }
     })
 }
