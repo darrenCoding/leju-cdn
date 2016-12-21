@@ -58,6 +58,11 @@ let respond = (req, res, code, type, data) => {
                 'Last-Modified' : date,
                 'Etag' : hash
             })
+
+            if ( code === 304 ) {
+                data = '';
+            }
+
             res.end(new Buffer(data))
         })
     } else {
@@ -135,7 +140,7 @@ let app = (req, res) => {
 
         let sdata = yield new Promise( (resolve, reject) => {
             rdata = '/***<ljtime>'+ mw.getTime() + '</ljtime>***/' + rdata;
-            if ( argv === 'p' ) {
+            if ( argv === 'l' ) {
                 db.set(url, rdata, (err, data) => {
                     err && reject(err)
                 });

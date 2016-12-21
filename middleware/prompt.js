@@ -10,8 +10,7 @@ module.exports = {
     },
     fresh : (() => {
         let hash,
-            date,
-            _this = this;
+            date;
         let getHash = (data) => {
             let md5 = crypto.createHash('md5');
             md5.update(data);
@@ -20,7 +19,7 @@ module.exports = {
 
         let lastModified = (data) => {
             let index = ~data.indexOf('</ljtime>***/') ? data.indexOf('</ljtime>***/') : 0;
-            let sdata = data.slice(0,index);
+            let sdata = data.slice(0, index);
             return date = sdata ? new Date(sdata.replace(/\/(\*)+\<(ljtime)\>/,'')).toUTCString() : new Date().toUTCString();
         }
 
