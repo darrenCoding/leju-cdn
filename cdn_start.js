@@ -133,8 +133,8 @@ let app = (req, res) => {
                         } else {
                             files = deps;
                             resolve(data);
-                            cb()
                         }
+                        cb()
                     });
                 }, 5000) 
 
@@ -174,7 +174,7 @@ let app = (req, res) => {
         if ( err ) {
             respond(req, res, code, 'html', msg);
             files && mw.save(makeContents(url, files));
-            msg = `[code === 500 ? server : url] ${url} ${mw.getFinfo() + msg}`;
+            msg = `[${code === 500 ? 'server' : 'url'}] ${url} ${mw.getFinfo() + msg}`;
             log4js.loggerE.error(msg);
         }
     })
